@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
+# This script connects to a server via SSH using a specified private key and user.
 
-# Define the server's IP or hostname
-SERVER_IP="8.8.8.8"
-
-# Connect to the server using the specified private key and user
-ssh -i ~/.ssh/school ubuntu@"$SERVER_IP"
+ssh -i ~/.ssh/school ubuntu@8.8.8.8
