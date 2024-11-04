@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# This script transfers a file to a remote server's home directory using SCP with a private key and disables strict host key checking.
+
+# Check if there are exactly 4 arguments
+if [ "$#" -ne 4 ]; then
+    echo "Usage: 0-transfer_file root/alu-system_engineering-devops/web_server/0-transfer_file 18.206.168.44 ubuntu root/.ssh/id_rsa.pub"
+    exit 1
+fi
+
+# Assign arguments to variables for readability
+FILE_PATH=$1
+SERVER_IP=$2
+USERNAME=$3
+SSH_KEY_PATH=$4
+
+# Use scp to transfer the file with strict host key checking disabled
+scp -i "root/.ssh/id_rsa.pub" -o StrictHostKeyChecking=no "root/alu-system_engineering-devops/web_server/0-transfer_file" "ubuntu@18.206.168.44:~/"
+
