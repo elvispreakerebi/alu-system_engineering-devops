@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# This script installs and configures HAProxy on a new Ubuntu machine for round-robin load balancing.
+
+# Install HAProxy
+sudo apt-get update -y
+sudo apt-get install -y haproxy
+
+# Enable HAProxy to start on boot
+sudo sed -i 's/ENABLED=0/ENABLED=1/' /etc/default/haproxy
+
+# Configure HAProxy with round-robin load balancing
+cat <<EOL | sudo tee /etc/haproxy/haproxy.cfg
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    daemon
+    maxconn 4096
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option redispatch
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+    maxconn 3000
+
+frontend http-in
+    bind *:80
+    default_backend servers
+
+backend servers
+    balance roundrobin
+    option httpchk HEAD / HTTP/1.1\r\nHost:\ localhost
+    server web-01 YOUR_WEB_01_IP:80 check
+    server web-02 YOUR_WEB_02_IP:80 check
+EOL
+
+# Restart HAProxy to apply the changes
+sudo service haproxy restart
