@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-# This script installs Nginx, modifies the default page to include "Holberton School", and configures it to start on port 80.
+# Installs Nginx with the following configurations:
+#+    Listens on port 80.
+#+    Returns a page containing "Holberton School" when queried
+#++    at the root with a curl GET request.
 
-# Update package list and install Nginx with -y to automatically confirm installation
 apt-get update -y
-apt-get install nginx -y
-
-# Modify the default Nginx welcome page to include "Holberton School"
-echo "Holberton School for the win!" | tee /var/www/html/index.nginx-debian.html
-
-# Start Nginx without using systemctl
-service nginx start
-
-# Confirm that Nginx is running on port 80
-curl -I localhost
+apt-get install nginx -y 
+sudo ufw allow 'Nginx HTTP'
+sh -c 'echo "Holberton School" > /var/www/html/index.html'
+service nginx restart
