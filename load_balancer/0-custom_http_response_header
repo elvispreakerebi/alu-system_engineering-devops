@@ -18,7 +18,7 @@ echo "server {
 	root /var/www/html;
 	index index.html index.htm 404.html index.nginx-debian.html;
 	server_name _;
-	add_header X-Served-By $HOSTNAME;
+	add_header X-Served-By prea;
 	location /redirect_me {
 		return 301 https://www.youtube.com/watch?v=-VGIt10m9VQ;
 	}
