@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Installs Nginx with the following configurations:
-#+    Listens on port 80.
-#+    Returns a page containing "Holberton School" when queried
-#++    at the root with a curl GET request.
-
-apt-get update -y
-apt-get install nginx -y 
-sudo ufw allow 'Nginx HTTP'
-sh -c 'echo "Holberton School" > /var/www/html/index.html'
-service nginx restart
+#Updates the current state of the server
+#Installs Nginx on the server
+#Changes the user and user group ownership for editing file
+#overwrites the default page of nginx
+#restarts nginx
+apt-get -y update
+apt-get install -y nginx
+sudo chown -R $USER:$USER /var/www/html
+echo "Holberton School for the win!" > /var/www/html/index.html
+sudo chown -R root:root /var/www/html
+sudo service nginx restart
