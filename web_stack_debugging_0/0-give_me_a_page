@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Debugging script to fix Apache and serve "Hello Holberton"
+
+# Install Apache if not installed
+apt update
+apt install -y apache2
+
+# Start Apache service
+service apache2 start
+
+# Create an HTML file containing "Hello Holberton"
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Set correct permissions
+chmod 644 /var/www/html/index.html
+
+# Restart Apache service
+service apache2 restart
