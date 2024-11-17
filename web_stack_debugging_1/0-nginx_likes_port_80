@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
-# This script installs Nginx, ensures it listens on port 80, and starts the Nginx service.
+# This script configures Nginx to return an HTTP 200 response on port 80
 
-# Install Nginx if it's not already installed
+# Install Nginx
 apt update
 apt install -y nginx
 
-# Ensure Nginx is configured to listen on port 80
+# Configure Nginx to listen on port 80
 sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+sed -i 's/root \/var\/www\/html;/root \/var\/www\/html; index index.html;/g' /etc/nginx/sites-available/default
 
-# Restart Nginx service to apply changes
+# Create a test HTML file
+echo "Hello World" > /var/www/html/index.html
+
+# Restart Nginx
 systemctl restart nginx
 
-# Enable Nginx to start on boot
+# Enable Nginx on boot
 systemctl enable nginx
 
-# Check if Nginx is running and listening on port 80
-ss -tuln | grep ':80'
+# Allow traffic on port 80
+ufw allow 80/tcp
